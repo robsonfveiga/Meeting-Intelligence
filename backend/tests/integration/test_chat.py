@@ -128,11 +128,23 @@ class TestCitationVerification:
 
 
 class TestCorrectiveLoop:
+    """The rewrite-and-retry cycle.
+
+    Both queries here have to actually retrieve something. Nothing retrieved
+    routes straight to `refuse`, which never reaches the grader — so a question
+    made of words the fixture does not contain tests the refusal path by
+    accident and reports the loop as broken.
+
+    That distinction only shows up without an API key: with one, the vector leg
+    returns nearest neighbours for any string at all and hides the problem.
+    """
+
     async def test_a_poor_grade_triggers_one_rewrite_and_retry(self, client, ingested, stub_model):
         calls, scripted = stub_model
         scripted["grade"] = "INSUFFICIENT"
+        scripted["rewrite"] = "migration"
 
-        body = await _ask(client, "something the grader dislikes")
+        body = await _ask(client, "rollback")
 
         assert "rewrite" in calls["complete"]
         assert body["trace"]["rewritten"] is True
@@ -142,8 +154,9 @@ class TestCorrectiveLoop:
         """A permanently unhappy grader must not loop forever."""
         calls, scripted = stub_model
         scripted["grade"] = "INSUFFICIENT"
+        scripted["rewrite"] = "migration"
 
-        body = await _ask(client, "never satisfying")
+        body = await _ask(client, "rollback")
 
         assert body["trace"]["attempts"] == 2
         assert calls["complete"].count("rewrite") == 1

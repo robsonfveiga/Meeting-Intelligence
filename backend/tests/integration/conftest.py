@@ -32,6 +32,18 @@ os.environ["DATABASE_URL"] = _TEST_URL
 # stubbed provider, which is the only place the behaviour is actually asserted.
 os.environ["EXTRACTION_ENABLED"] = "false"
 
+# No provider key, for the same reason the database is pinned above: a suite that
+# behaves differently depending on what happens to be in the environment is a
+# suite whose result means something different on each machine. CI has no key, so
+# a developer with one in `.env` was running a materially different set of paths —
+# the vector leg returns nearest neighbours for any string, which silently
+# satisfied tests that meant to retrieve something specific.
+#
+# Keyword-only here. The vector path is covered by unit tests over ranking and by
+# the evaluation harness, both of which are about retrieval quality rather than
+# the wiring these tests exist to check.
+os.environ["OPENAI_API_KEY"] = ""
+
 
 def _create_test_database() -> None:
     admin_url = _DEV_URL.rsplit("/", 1)[0] + "/postgres"
