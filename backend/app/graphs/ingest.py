@@ -51,10 +51,14 @@ from app.db import facts as facts_db
 from app.db import meetings as meetings_db
 from app.db import turns as turns_db
 from app.db.engine import transaction
-from app.models.enums import Stage, TranscriptFormat
-from app.models.fact import Fact
-from app.models.state import IngestionState, StageError, StageStats
-from app.models.transcript import Meeting, Turn
+from app.models.fact.fact import Fact
+from app.models.ingestion.ingestion_state import IngestionState
+from app.models.ingestion.stage import Stage
+from app.models.ingestion.stage_error import StageError
+from app.models.ingestion.stage_stats import StageStats
+from app.models.transcript.meeting import Meeting
+from app.models.transcript.transcript_format import TranscriptFormat
+from app.models.transcript.turn import Turn
 from app.observability.log import get_logger
 from app.observability.stages import timed
 

@@ -10,9 +10,9 @@ from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.db.tables import facts
-from app.models.enums import FactKind
-from app.models.fact import Fact
-from app.models.transcript import TimeRange
+from app.models.fact.fact import Fact
+from app.models.fact.fact_kind import FactKind
+from app.models.transcript.time_range import TimeRange
 
 
 def _to_model(row) -> Fact:

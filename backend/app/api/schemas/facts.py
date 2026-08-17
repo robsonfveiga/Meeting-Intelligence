@@ -15,9 +15,9 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from app.models.enums import FactKind
-from app.models.fact import Fact
-from app.models.transcript import TimeRange
+from app.models.fact.fact import Fact
+from app.models.fact.fact_kind import FactKind
+from app.models.transcript.time_range import TimeRange
 
 
 class FactResponse(BaseModel):

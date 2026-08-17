@@ -17,8 +17,9 @@ does not change any decision.
 
 import re
 
-from app.models.chunk import Chunk
-from app.models.transcript import TimeRange, Turn
+from app.models.transcript.chunk import Chunk
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 

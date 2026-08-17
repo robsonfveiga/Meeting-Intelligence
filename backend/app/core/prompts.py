@@ -21,8 +21,8 @@ prompt-based is — but it is the cheap part of the defence, and the expensive p
 (no tools, no side effects from an answer) is already true by construction.
 """
 
-from app.models.retrieval import ScoredChunk
-from app.models.transcript import Turn
+from app.models.retrieval.scored_chunk import ScoredChunk
+from app.models.transcript.turn import Turn
 
 BLOCK_OPEN = "<<<TRANSCRIPT_EXCERPT"
 BLOCK_CLOSE = ">>>"

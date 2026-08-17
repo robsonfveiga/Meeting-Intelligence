@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
 
-from app.models.transcript import TimeRange
+from app.models.transcript.time_range import TimeRange
 
 
 class Chunk(BaseModel):

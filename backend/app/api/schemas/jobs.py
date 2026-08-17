@@ -2,8 +2,10 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from app.models.enums import Stage, TranscriptFormat
-from app.models.state import StageError, StageStats
+from app.models.ingestion.stage import Stage
+from app.models.ingestion.stage_error import StageError
+from app.models.ingestion.stage_stats import StageStats
+from app.models.transcript.transcript_format import TranscriptFormat
 
 
 class UploadAccepted(BaseModel):

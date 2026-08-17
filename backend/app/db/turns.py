@@ -4,7 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.db.tables import turns
-from app.models.transcript import TimeRange, Turn
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 
 def _to_model(row) -> Turn:

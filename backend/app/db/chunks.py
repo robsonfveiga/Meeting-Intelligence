@@ -5,9 +5,10 @@ from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.db.tables import chunks
-from app.models.chunk import Chunk
-from app.models.retrieval import SearchFilters, SearchHit
-from app.models.transcript import TimeRange
+from app.models.retrieval.search_filters import SearchFilters
+from app.models.retrieval.search_hit import SearchHit
+from app.models.transcript.chunk import Chunk
+from app.models.transcript.time_range import TimeRange
 
 
 def _to_model(row) -> Chunk:

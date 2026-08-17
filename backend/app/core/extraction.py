@@ -22,9 +22,11 @@ import re
 from typing import Any
 from uuid import UUID
 
-from app.models.enums import FactKind
-from app.models.fact import ExtractedFact, Fact
-from app.models.transcript import TimeRange, Turn
+from app.models.fact.extracted_fact import ExtractedFact
+from app.models.fact.fact import Fact
+from app.models.fact.fact_kind import FactKind
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 # The provider contract. Hand-written rather than generated from the pydantic
 # model because strict JSON-schema mode is fussy in ways pydantic's output is

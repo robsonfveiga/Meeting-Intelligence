@@ -45,8 +45,11 @@ from app.core.ranking import neighbour_ids, reciprocal_rank_fusion
 from app.db import chunks as chunks_db
 from app.db import meetings as meetings_db
 from app.db.engine import transaction
-from app.models.answer import Answer, AnswerTrace
-from app.models.retrieval import ScoredChunk, SearchFilters, SearchResult
+from app.models.answer.answer import Answer
+from app.models.answer.answer_trace import AnswerTrace
+from app.models.retrieval.scored_chunk import ScoredChunk
+from app.models.retrieval.search_filters import SearchFilters
+from app.models.retrieval.search_result import SearchResult
 from app.observability.log import get_logger
 
 log = get_logger(__name__)
@@ -339,7 +342,7 @@ async def search(
     filters: SearchFilters | None = None,
     expand: bool = False,
 ) -> SearchResult:
-    """Retrieval alone, with no model in the loop. Used by /search and the evals."""
+    """Retrieval alone, with no model in the loop. What `/search` serves."""
     hits, timings, candidates = await _retrieve(query, limit=limit, filters=filters, expand=expand)
     return SearchResult(
         query=query,

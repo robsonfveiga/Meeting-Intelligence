@@ -16,9 +16,10 @@ from app.config import get_settings
 from app.db import meetings as meetings_db
 from app.db.engine import transaction
 from app.graphs.ingest import new_job_id
-from app.models.enums import FactKind
-from app.models.state import SourceReference, new_ingestion_state
-from app.models.transcript import Meeting
+from app.models.fact.fact_kind import FactKind
+from app.models.ingestion.ingestion_state import new_ingestion_state
+from app.models.ingestion.source_reference import SourceReference
+from app.models.transcript.meeting import Meeting
 from app.observability.log import get_logger
 
 router = APIRouter()
@@ -87,6 +88,31 @@ async def list_meetings() -> list[Meeting]:
     """Returns the domain model directly — the wire shape does not differ from it."""
     async with transaction() as conn:
         return await meetings_db.list_all(conn)
+
+
+@router.delete("/{meeting_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_meeting(meeting_id: uuid.UUID) -> None:
+    """Remove a meeting, its turns, its chunks and its extracted facts.
+
+    A real delete rather than a flag. A soft delete would have to be honoured by
+    retrieval, by extraction listings, by the timeline and by the evaluation
+    harness, and the first place that forgets to filter starts answering
+    questions out of a transcript the user removed. Given that, the honest thing
+    is to remove the rows.
+
+    Two things deliberately survive. The stored upload file stays on disk, as it
+    does today for every ingest, because the graph checkpoint still references it
+    for a resume. And the job record stays readable at `/jobs/{job_id}`, because
+    it is the history of a run that really happened — its `meeting_id` now points
+    at nothing, which is accurate.
+    """
+    async with transaction() as conn:
+        deleted = await meetings_db.delete(conn, meeting_id)
+
+    if not deleted:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "no such meeting")
+
+    log.info("meeting.deleted", meeting_id=str(meeting_id))
 
 
 @router.get("/{meeting_id}/facts", response_model=list[FactResponse])

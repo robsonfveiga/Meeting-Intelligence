@@ -12,7 +12,7 @@ import time
 from collections.abc import Awaitable, Callable
 from typing import Any, TypeVar, cast
 
-from app.models.state import StageStats
+from app.models.ingestion.stage_stats import StageStats
 from app.observability.log import get_logger
 
 log = get_logger(__name__)

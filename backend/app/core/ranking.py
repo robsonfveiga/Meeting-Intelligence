@@ -23,7 +23,8 @@ milliseconds with handwritten inputs.
 
 from uuid import UUID
 
-from app.models.retrieval import FusedHit, SearchHit
+from app.models.retrieval.fused_hit import FusedHit
+from app.models.retrieval.search_hit import SearchHit
 
 RRF_K = 60
 

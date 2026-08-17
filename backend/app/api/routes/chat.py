@@ -15,8 +15,8 @@ from fastapi.responses import StreamingResponse
 from app.api.schemas.chat import ChatRequest
 from app.clients.llm import CompletionUnavailable, completions_available
 from app.graphs.query import answer, answer_stream
-from app.models.answer import Answer
-from app.models.retrieval import SearchFilters
+from app.models.answer.answer import Answer
+from app.models.retrieval.search_filters import SearchFilters
 from app.observability.log import get_logger
 
 router = APIRouter()

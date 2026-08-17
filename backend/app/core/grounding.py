@@ -25,8 +25,8 @@ Pure functions over strings and lists, so every case is testable without a model
 
 import re
 
-from app.models.answer import AnswerCitation
-from app.models.retrieval import ScoredChunk
+from app.models.answer.answer_citation import AnswerCitation
+from app.models.retrieval.scored_chunk import ScoredChunk
 
 _MARKER = re.compile(r"\[(\d+)\]")
 # Left behind when an invalid marker is removed mid-sentence.

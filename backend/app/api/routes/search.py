@@ -2,7 +2,8 @@ from fastapi import APIRouter
 
 from app.api.schemas.search import SearchRequest
 from app.graphs.query import search
-from app.models.retrieval import SearchFilters, SearchResult
+from app.models.retrieval.search_filters import SearchFilters
+from app.models.retrieval.search_result import SearchResult
 
 router = APIRouter()
 

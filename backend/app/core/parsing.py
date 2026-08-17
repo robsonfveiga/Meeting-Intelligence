@@ -26,7 +26,9 @@ one turn, and a turn is never split again downstream.
 import re
 from datetime import UTC, datetime
 
-from app.models.transcript import ParsedTranscript, ParsedTurn, TimeRange
+from app.models.transcript.parsed_transcript import ParsedTranscript
+from app.models.transcript.parsed_turn import ParsedTurn
+from app.models.transcript.time_range import TimeRange
 
 UNKNOWN_SPEAKER = "Unknown"
 

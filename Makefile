@@ -1,4 +1,5 @@
-.PHONY: up down logs build test lint fmt typecheck check migrate shell psql clean eval seed
+.PHONY: up down logs build test lint fmt typecheck check migrate shell psql clean seed \
+        eval eval-answers eval-facts eval-all
 
 up:            ## Start the whole stack
 	docker compose up -d --build
@@ -36,8 +37,17 @@ seed:          ## Ingest the sample corpus
 		echo "ingested $$f"; \
 	done
 
-eval:          ## Measure retrieval against the golden set
+eval:          ## Measure retrieval against the golden set — free and deterministic
 	docker compose exec -T api python -m evals.run
+
+eval-answers:  ## Measure the answer path. Calls the provider; costs money per run
+	docker compose exec -T api python -m evals.run answers
+
+eval-facts:    ## Measure extraction against a hand-written reading of the corpus
+	docker compose exec -T api python -m evals.run facts
+
+eval-all:      ## Every suite, plus the non-deterministic faithfulness judge
+	docker compose exec -T api python -m evals.run all --judge
 
 migrate:       ## Apply migrations against the running database
 	docker compose run --rm api alembic upgrade head

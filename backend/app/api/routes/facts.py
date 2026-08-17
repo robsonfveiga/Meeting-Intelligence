@@ -16,8 +16,8 @@ from app.api.schemas.facts import FactResponse
 from app.db import facts as facts_db
 from app.db import meetings as meetings_db
 from app.db.engine import transaction
-from app.models.enums import FactKind
-from app.models.fact import Fact
+from app.models.fact.fact import Fact
+from app.models.fact.fact_kind import FactKind
 
 router = APIRouter()
 
