@@ -1,0 +1,75 @@
+[project]
+name = "meeting-intelligence"
+version = "0.1.0"
+description = "Ask questions across a collection of meeting transcripts"
+requires-python = ">=3.13"
+
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "python-multipart>=0.0.12",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    # [asyncio] pulls in greenlet, which the async engine needs at runtime.
+    # It installs automatically on Linux but not on macOS arm64, so without the
+    # extra the container works and a local run fails.
+    "sqlalchemy[asyncio]>=2.0.36",
+    "psycopg[binary,pool]>=3.2",
+    "pgvector>=0.3.6",
+    "alembic>=1.14",
+    "langgraph>=0.2.50",
+    "langgraph-checkpoint-postgres>=2.0.2",
+    "structlog>=24.4",
+    "openai>=1.60",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+    "asgi-lifespan>=2.1",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+# mypy rather than pyright: pure Python, so it behaves the same in the container
+# and in CI without pulling a Node runtime into the image.
+python_version = "3.13"
+files = ["app"]
+plugins = ["pydantic.mypy"]
+# No __init__.py anywhere, so both tools need to be told where the package root
+# is. See the note in the README on why the files were dropped.
+mypy_path = "."
+explicit_package_bases = true
+namespace_packages = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+# LangGraph's compiled-graph types are loose at the boundary; the graph builder
+# is wiring, and the node functions either side of it are checked normally.
+module = ["app.graphs.*"]
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+# importlib mode so two test files can share a basename across tests/unit and
+# tests/integration — without __init__.py the default mode collides on them.
+addopts = "-q --import-mode=importlib"
+consider_namespace_packages = true
+markers = ["integration: needs a live database"]
+
+[tool.uv]
+package = false

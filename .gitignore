@@ -1,0 +1,14 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store
+data/uploads/
+node_modules/
+dist/
+
+# The assignment brief. Not ours to redistribute.
+Assignment v3.docx

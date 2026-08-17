@@ -1,0 +1,59 @@
+{
+  // Hidden from the explorer AND from Quick Open. Only things never worth opening.
+  // .env is deliberately absent: a hidden config file is how afternoons get lost.
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.mypy_cache": true,
+    "**/.DS_Store": true,
+    "**/.venv": true,
+    // Code-generation template for `alembic revision`. Never read by hand.
+    // The migrations themselves in alembic/versions/ stay visible — they are
+    // the most readable record of how the schema evolved.
+    "**/alembic/script.py.mako": true
+  },
+
+  // Only affects find-in-files. Still openable by name — uv.lock is 268 kB of
+  // resolved dependency noise you occasionally need to read.
+  "search.exclude": {
+    "**/uv.lock": true,
+    "**/node_modules": true
+  },
+
+  // Fewer things for the file watcher to track. Noticeable on macOS.
+  "files.watcherExclude": {
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.ruff_cache/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.venv/**": true
+  },
+
+  // The package has no __init__.py files, so the language server needs telling
+  // where the root is — the same thing mypy_path and pythonpath do in
+  // pyproject.toml. Without this every internal import shows as unresolved.
+  "python.analysis.extraPaths": ["./backend"],
+  "python.defaultInterpreterPath": "./backend/.venv/bin/python",
+
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.cwd": "${workspaceFolder}/backend",
+  "python.testing.pytestArgs": ["tests"],
+
+  // Editor formatting matches the pipeline, so `ruff format --check` stops
+  // failing in CI for whitespace nobody saw.
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.rulers": [100]
+}
