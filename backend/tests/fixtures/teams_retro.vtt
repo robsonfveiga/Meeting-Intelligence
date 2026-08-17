@@ -1,0 +1,31 @@
+WEBVTT
+
+00:00:01.000 --> 00:00:12.000
+<v Priya Raman>The rollback took four hours when we had budgeted forty minutes, which is the headline problem.</v>
+
+00:00:12.000 --> 00:00:24.000
+<v Tom Beckett>We tested on staging, which held a twentieth of the production data, so the timings meant nothing.</v>
+
+00:00:24.000 --> 00:00:36.000
+<v Priya Raman>So the action is to rehearse against a production sized snapshot before we attempt the next one.</v>
+
+00:00:36.000 --> 00:00:48.000
+<v Sofia Marquez>That costs about eleven thousand a year to keep a restore available at that size.</v>
+
+00:00:48.000 --> 00:01:00.000
+<v Tom Beckett>Cheaper than expected. Put it in the budget conversation rather than deciding it here today.</v>
+
+00:01:00.000 --> 00:01:12.000
+<v Dan Okafor>Second issue was visibility. Nobody could say whether the migration was progressing or stuck.</v>
+
+00:01:12.000 --> 00:01:24.000
+<v Dan Okafor>For two hours we were guessing, which made the decision to roll back much harder than it should be.</v>
+
+00:01:24.000 --> 00:01:36.000
+<v Priya Raman>Progress reporting on long running jobs is a genuine gap and I think it deserves its own ticket.</v>
+
+00:01:36.000 --> 00:01:48.000
+<v Sofia Marquez>Agreed, but I do not think it blocks the next migration if the rehearsal work lands first.</v>
+
+00:01:48.000 --> 00:02:00.000
+<v Tom Beckett>Good. The bug count is down from thirty-one to nine, which is finally a number we can quote.</v>
