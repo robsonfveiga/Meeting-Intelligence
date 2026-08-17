@@ -1,9 +1,16 @@
 .PHONY: up down logs build test lint fmt typecheck check migrate shell psql clean seed \
-        eval eval-answers eval-facts eval-all
+        eval web web-install web-check web-types
+
+# Published host ports are read back from Compose rather than guessed from the
+# environment: API_PORT and WEB_PORT live in .env, which Compose reads and make
+# does not, so a default here would print — and post to — the wrong port.
+api_port = $$(docker compose port api 8000 2>/dev/null | cut -d: -f2)
+web_port = $$(docker compose port web 80 2>/dev/null | cut -d: -f2)
 
 up:            ## Start the whole stack
 	docker compose up -d --build
-	@echo "API on http://localhost:8000  (docs at /docs)"
+	@echo "Web on http://localhost:$(web_port)"
+	@echo "API on http://localhost:$(api_port)  (docs at /docs)"
 
 down:
 	docker compose down
@@ -29,25 +36,34 @@ fmt:
 typecheck:
 	docker compose run --rm api mypy
 
-check: lint typecheck test   ## Everything CI runs
+check: lint typecheck test web-check   ## Everything CI runs
+
+web-install:   ## Install frontend dependencies
+	cd frontend && npm ci
+
+web:           ## Frontend dev server with hot reload, against the running API
+	cd frontend && npm run dev
+
+web-check:     ## Frontend types, lint and production build
+	cd frontend && npm run typecheck && npm run lint && npm run build
+
+web-types:     ## Regenerate the API types from the running backend's OpenAPI document
+	cd frontend && npm run types
 
 seed:          ## Ingest the sample corpus
-	@for f in data/transcripts/*.vtt; do \
-		curl -s -X POST http://localhost:$${API_PORT:-8000}/meetings -F "file=@$$f" > /dev/null; \
+	@port=$(api_port); \
+	if [ -z "$$port" ]; then \
+		echo "the api container is not running — start it with 'make up'"; exit 1; \
+	fi; \
+	for f in data/transcripts/*.vtt; do \
+		curl -fsS -X POST http://localhost:$$port/meetings -F "file=@$$f" > /dev/null \
+			|| { echo "failed to ingest $$f"; exit 1; }; \
 		echo "ingested $$f"; \
 	done
+	@echo "Uploads are accepted asynchronously; watch progress with 'make logs'."
 
 eval:          ## Measure retrieval against the golden set — free and deterministic
 	docker compose exec -T api python -m evals.run
-
-eval-answers:  ## Measure the answer path. Calls the provider; costs money per run
-	docker compose exec -T api python -m evals.run answers
-
-eval-facts:    ## Measure extraction against a hand-written reading of the corpus
-	docker compose exec -T api python -m evals.run facts
-
-eval-all:      ## Every suite, plus the non-deterministic faithfulness judge
-	docker compose exec -T api python -m evals.run all --judge
 
 migrate:       ## Apply migrations against the running database
 	docker compose run --rm api alembic upgrade head
