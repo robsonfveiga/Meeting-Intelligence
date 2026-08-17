@@ -7,7 +7,6 @@
  * whole interface exists to show.
  */
 .panel {
-  position: sticky;
   top: var(--s4);
   display: grid;
   gap: var(--s3);
