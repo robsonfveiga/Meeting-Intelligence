@@ -15,9 +15,11 @@ from app.core.extraction import (
     to_facts,
     verify_evidence,
 )
-from app.models.enums import FactKind
-from app.models.fact import ExtractedFact, Fact
-from app.models.transcript import TimeRange, Turn
+from app.models.fact.extracted_fact import ExtractedFact
+from app.models.fact.fact import Fact
+from app.models.fact.fact_kind import FactKind
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 MEETING = uuid4()
 

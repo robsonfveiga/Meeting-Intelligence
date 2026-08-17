@@ -5,15 +5,11 @@ should accumulate but replaces instead. `stats` is the dangerous one — losing
 it is silent, and you only find out much later when the cost numbers are wrong.
 """
 
-from app.models.enums import Stage
-from app.models.state import (
-    IngestionState,
-    SourceReference,
-    StageError,
-    StageStats,
-    merge_stats,
-    new_ingestion_state,
-)
+from app.models.ingestion.ingestion_state import IngestionState, merge_stats, new_ingestion_state
+from app.models.ingestion.source_reference import SourceReference
+from app.models.ingestion.stage import Stage
+from app.models.ingestion.stage_error import StageError
+from app.models.ingestion.stage_stats import StageStats
 
 
 def test_merge_stats_keeps_both_stages():

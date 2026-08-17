@@ -13,8 +13,8 @@ from app.core.grounding import (
     is_unsupported,
     strip_invalid_markers,
 )
-from app.models.retrieval import ScoredChunk
-from app.models.transcript import TimeRange
+from app.models.retrieval.scored_chunk import ScoredChunk
+from app.models.transcript.time_range import TimeRange
 
 
 def hit(index: int) -> ScoredChunk:

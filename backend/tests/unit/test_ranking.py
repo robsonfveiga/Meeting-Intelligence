@@ -9,7 +9,7 @@ bug and the code that gets tuned most.
 from uuid import UUID, uuid4
 
 from app.core.ranking import RRF_K, neighbour_ids, reciprocal_rank_fusion
-from app.models.retrieval import SearchHit
+from app.models.retrieval.search_hit import SearchHit
 
 A, B, C, D = (UUID(int=i) for i in range(1, 5))
 

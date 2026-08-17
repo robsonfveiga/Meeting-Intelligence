@@ -9,7 +9,8 @@ from itertools import pairwise
 from uuid import uuid4
 
 from app.core.chunking import build_context_header, chunk_turns
-from app.models.transcript import TimeRange, Turn
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 MEETING = uuid4()
 

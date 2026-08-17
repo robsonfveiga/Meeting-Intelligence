@@ -17,8 +17,9 @@ from app.core.prompts import (
     render_excerpt,
     render_window,
 )
-from app.models.retrieval import ScoredChunk
-from app.models.transcript import TimeRange, Turn
+from app.models.retrieval.scored_chunk import ScoredChunk
+from app.models.transcript.time_range import TimeRange
+from app.models.transcript.turn import Turn
 
 
 def hit(index: int, **overrides) -> ScoredChunk:

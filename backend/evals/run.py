@@ -24,7 +24,7 @@ from app.core.ranking import reciprocal_rank_fusion
 from app.db import chunks as chunks_db
 from app.db import meetings as meetings_db
 from app.db.engine import dispose_engine, transaction
-from app.models.retrieval import SearchHit
+from app.models.retrieval.search_hit import SearchHit
 from evals.golden import GOLDEN_SET, GoldenQuestion
 
 CANDIDATES = 20
