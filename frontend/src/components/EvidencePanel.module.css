@@ -1,0 +1,174 @@
+/*
+ * A sticky rail that scrolls inside itself.
+ *
+ * Six excerpts are taller than most answers, and letting the rail set the page
+ * height left a screen of emptiness beside the prose. Capping it to the viewport
+ * keeps the answer and its evidence in view together, which is the pairing the
+ * whole interface exists to show.
+ */
+.panel {
+  position: sticky;
+  top: var(--s4);
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  max-height: calc(100vh - var(--s7));
+}
+
+/* Only the list scrolls. The heading stays put above it, which is both the right
+   structure and the only way its right-hand edge escapes the scrollbar gutter. */
+.cards {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  /* A focused card lifts up and left by 2px, so the scroll box needs the room. */
+  padding: 3px;
+  margin: -3px;
+}
+
+.panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background: var(--veil-strong);
+  border-radius: 3px;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-bottom: var(--s2);
+  border-bottom: var(--line-strong);
+}
+
+.count {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.card {
+  padding: var(--s3);
+  border: var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  transition:
+    border-color var(--fast) var(--ease),
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+  animation: enter var(--slow) var(--ease) backwards;
+  /* Matched to the timeline marks, so a card and its mark arrive together. */
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.focused {
+  border-color: var(--decision);
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0 var(--decision-wash);
+}
+
+/* Retrieved but never cited. Kept visible, because what the retriever offered and
+   the answer declined to use is part of the record. */
+.uncited {
+  opacity: 0.62;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  margin-bottom: var(--s2);
+}
+
+.marker {
+  display: grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 2px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.unused {
+  width: 1.5em;
+  text-align: center;
+  color: var(--ink-faint);
+}
+
+.meeting {
+  font-weight: 500;
+}
+
+.clock {
+  color: var(--ink-faint);
+  margin-left: auto;
+}
+
+.quote {
+  font-size: var(--step-0);
+  line-height: 1.5;
+  color: var(--ink);
+  /* Excerpts run long; four lines is enough to recognise one, and the full text
+     is a click away on the timeline. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-top: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.speakers {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranks {
+  display: flex;
+  gap: var(--s2);
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  /* Stacked below the answer, so capping the height would hide excerpts behind a
+     second scrollbar inside a page that already scrolls. */
+  .panel {
+    position: static;
+    max-height: none;
+  }
+
+  .cards {
+    overflow-y: visible;
+  }
+}

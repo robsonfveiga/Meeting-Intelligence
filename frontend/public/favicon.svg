@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- The three meanings, stacked: decided, owed, open. Same mark as the wordmark. -->
+  <rect width="32" height="32" fill="#F5F3F7" />
+  <rect x="10" y="4" width="12" height="8" fill="#3B2BFF" />
+  <rect x="10" y="12" width="12" height="8" fill="#FF2E88" />
+  <rect x="10" y="20" width="12" height="8" fill="#00C2A8" />
+</svg>

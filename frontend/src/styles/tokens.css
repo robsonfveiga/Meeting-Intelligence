@@ -1,0 +1,196 @@
+/*
+ * The design system, in one file.
+ *
+ * Three rules govern the palette, and they are the reason the interface looks
+ * the way it does.
+ *
+ * 1. HUE CARRIES MEANING. Violet is something settled, magenta is something a
+ *    person owes, teal is something still open. Nothing is coloured for
+ *    decoration, so a reader can learn the three hues once and then read the
+ *    timeline without a legend.
+ *
+ * 2. MEETINGS GET POSITION, NOT HUE. The timeline already separates meetings
+ *    into bands, so giving them colours too would put two colour systems in
+ *    competition and make both unreadable.
+ *
+ * 3. THE HUES NEVER CARRY BODY TEXT. Magenta on paper measures about 3.2:1 —
+ *    fine for graphics, borders and large display type, and not fine for a
+ *    paragraph. Small text is always `--ink` or `--ink-soft`. This is a hard
+ *    constraint, not a preference.
+ */
+
+:root {
+  /* --- base ------------------------------------------------------------- */
+  /* Near-black with a violet undertone rather than a true black: it sits with
+     the three hues instead of fighting them. */
+  --ink: #17141f;
+  --ink-soft: #55506a;
+  --ink-faint: #8b849f;
+  /* Off-white with the same violet cast, so the whole surface agrees. */
+  --paper: #f5f3f7;
+  --paper-raised: #fffdff;
+  --veil: #e4dfec;
+  --veil-strong: #cec7dc;
+
+  /* --- the three meanings ----------------------------------------------- */
+  --decision: #3b2bff;
+  --commitment: #ff2e88;
+  --open: #00c2a8;
+  /* Tinted washes for panel fills. Kept very pale so ink stays readable on top. */
+  --decision-wash: #ebe9ff;
+  --commitment-wash: #ffe9f3;
+  --open-wash: #e0f8f5;
+
+  /* --- type ------------------------------------------------------------- */
+  /* Space Grotesk for display: a grotesk with enough character to be recognised
+     and enough discipline to be read at 72px. */
+  --font-display: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  /* IBM Plex Mono is load-bearing here, not ornamental. Timecodes, turn ranges,
+     speaker labels, stage timings — the machine-verified provenance that is the
+     whole product claim is set in the machine's own typeface. */
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  /* The reader's own system face for answer prose. One fewer font to download,
+     and long-form text is the one place a native stack is genuinely right. */
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --step--1: 0.78rem;
+  --step-0: 0.94rem;
+  --step-1: 1.15rem;
+  --step-2: 1.45rem;
+  --step-3: 2rem;
+  --step-4: clamp(2.2rem, 5vw, 3.4rem);
+  --step-5: clamp(2.6rem, 7vw, 4.6rem);
+
+  /* --- space, on a 4px base -------------------------------------------- */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+  --s8: 4.5rem;
+
+  /* --- form ------------------------------------------------------------- */
+  /* Small radii, not pill shapes: the subject is a record, and records have
+     corners. */
+  --radius: 4px;
+  --radius-lg: 8px;
+  --line: 1px solid var(--veil);
+  --line-strong: 1px solid var(--veil-strong);
+  /* One flat offset shadow rather than a soft blur. Blurred shadows read as
+     generic depth; a hard offset reads as a deliberate mark. */
+  --lift: 3px 3px 0 var(--veil-strong);
+
+  /* --- the question field ---------------------------------------------- */
+  /* Its own tokens rather than borrowed card ones: an input is the only element
+     on the page that has to look interactive while empty. */
+  --field-surface: #fbfafd;
+  --field-edge: #cbc3da;
+  --field-glow: rgb(59 43 255 / 0.13);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  /* A small overshoot, used only where something arrives or responds to a
+     pointer. Never on colour or opacity, where an overshoot has nowhere to go. */
+  --ease-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --fast: 120ms;
+  --slow: 340ms;
+  /* The stagger between citation ticks lighting up, one after another. */
+  --stagger: 60ms;
+
+  color-scheme: light dark;
+}
+
+/* Dark mode inverts the base and lifts the hues just enough to hold up against
+   a dark surface. The hues keep their meanings; only their brightness moves. */
+:root[data-theme="dark"] {
+  --ink: #f2eff8;
+  --ink-soft: #a9a2bd;
+  --ink-faint: #736c88;
+  --paper: #131019;
+  --paper-raised: #1c1826;
+  --veil: #2b2538;
+  --veil-strong: #423a55;
+
+  --decision: #7d6dff;
+  --commitment: #ff6ba8;
+  --open: #2fddc2;
+  --decision-wash: #211d3d;
+  --commitment-wash: #351a2b;
+  --open-wash: #10302c;
+
+  --lift: 3px 3px 0 var(--veil-strong);
+
+  /* Brighter than the card edge, because a near-black background swallows the
+     value that reads perfectly well against paper. */
+  --field-surface: #1e1a2a;
+  --field-edge: #524766;
+  --field-glow: rgb(125 109 255 / 0.24);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Focus is always visible. Never `outline: none` without a replacement — a
+   keyboard user losing their place is a worse outcome than a stray ring. */
+:focus-visible {
+  outline: 2px solid var(--decision);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--decision);
+  color: var(--paper);
+}
+
+/* Motion is one orchestrated sequence tied to real backend events. Turning it
+   off must leave the same information on screen, arriving instantly. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  :root {
+    --stagger: 0ms;
+  }
+}

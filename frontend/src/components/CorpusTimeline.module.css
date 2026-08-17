@@ -1,0 +1,190 @@
+.timeline {
+  margin-top: var(--s8);
+  min-width: 0;
+  transition: opacity var(--slow) var(--ease);
+}
+
+/* Dimmed while an answer assembles, so the marks it lights up are the only
+   bright thing on the page. */
+.dimmed {
+  opacity: 0.4;
+}
+
+.rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2) var(--s4);
+  padding-bottom: var(--s2);
+  border-bottom: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.key {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: var(--s3);
+}
+
+.key:first-child {
+  margin-left: 0;
+}
+
+.band {
+  display: grid;
+  grid-template-columns: 5.5rem 9rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s3) 0;
+}
+
+.date,
+.duration {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+
+/* Band width is proportional to how long the meeting actually ran, so a
+   seventy-second stand-up does not present itself as an hour. */
+.track {
+  position: relative;
+  height: 22px;
+  min-width: 0;
+}
+
+.spine {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--veil-strong);
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--veil-strong);
+  transition:
+    transform var(--fast) var(--ease-back),
+    background var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+}
+
+.tick:hover,
+.focused {
+  transform: scale(1.5);
+  z-index: 2;
+}
+
+.decision {
+  background: var(--decision);
+}
+
+.commitment {
+  background: var(--commitment);
+}
+
+.open_thread {
+  background: var(--open);
+}
+
+/*
+ * Evidence is a square, not a coloured dot. The resting layer says "something
+ * was settled here" and the overlay says "this answer rests on here" — two
+ * different claims, so they get two different shapes rather than two shades.
+ */
+.evidence {
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 2px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  display: grid;
+  place-items: center;
+  /*
+   * The marks land one after another rather than all at once, in citation order,
+   * so the eye follows the answer being assembled across the weeks it draws on.
+   * `--i` is set per mark from its citation number; `--stagger` collapses to 0ms
+   * under prefers-reduced-motion, which makes them arrive together instead.
+   */
+  animation: land var(--slow) var(--ease-back) backwards;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.marker {
+  line-height: 1;
+}
+
+@keyframes land {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.4);
+  }
+}
+
+.empty {
+  margin-top: var(--s6);
+  padding: var(--s6);
+  border: 1px dashed var(--veil-strong);
+  border-radius: var(--radius-lg);
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  .band {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    row-gap: var(--s2);
+  }
+
+  .trackWrap {
+    grid-column: 1 / -1;
+  }
+
+  /* The ticks need room to be tappable, so the track keeps the full width and
+     proportional sizing is dropped rather than squeezing marks together. */
+  .track {
+    width: 100% !important;
+  }
+}

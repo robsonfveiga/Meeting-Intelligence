@@ -1,0 +1,182 @@
+.corpus {
+  display: grid;
+  gap: var(--s3);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding-bottom: var(--s2);
+  border-bottom: var(--line-strong);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.tally {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.empty {
+  max-width: 52ch;
+  color: var(--ink-soft);
+}
+
+.failure {
+  padding: var(--s2) var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink);
+  border-left: 3px solid var(--commitment);
+}
+
+.rows {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3);
+  border: var(--line);
+  border-radius: var(--radius);
+  transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+
+.row:hover {
+  border-color: var(--veil-strong);
+  background: var(--paper-raised);
+}
+
+/* Magenta is the hue for something a person owes, and a pending deletion is the
+   same kind of thing: an unresolved obligation sitting on this row. */
+.confirming {
+  border-color: var(--commitment);
+  background: var(--commitment-wash);
+}
+
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.detail {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 500;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.filename {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.question {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s3);
+}
+
+/* The consequence is set in ink, not in the accent hue: it is small text, and
+   small text never carries a hue here. */
+.warning {
+  max-width: 34ch;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+.remove,
+.destroy,
+.cancel {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  padding: var(--s1) var(--s3);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease),
+    border-color var(--fast) var(--ease);
+}
+
+/* Understated until asked for. A destructive control that shouts from every row
+   makes the safe reading of the list feel hazardous. */
+.remove {
+  color: var(--ink-faint);
+  border: var(--line-strong);
+}
+
+.remove:hover {
+  color: var(--commitment);
+  border-color: var(--commitment);
+}
+
+/* Filled only at the confirm step, where it is the one thing on the row that
+   should be unmistakable. */
+.destroy {
+  color: var(--paper);
+  background: var(--commitment);
+  border: 1px solid var(--commitment);
+}
+
+.destroy:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cancel {
+  color: var(--ink);
+  border: var(--line-strong);
+}
+
+.cancel:hover {
+  border-color: var(--ink-soft);
+}
+
+.cancel:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 4rem minmax(0, 1fr);
+    row-gap: var(--s2);
+  }
+
+  .question,
+  .remove {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}

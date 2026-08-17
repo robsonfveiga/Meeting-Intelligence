@@ -1,0 +1,15 @@
+.toggle {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  padding: var(--s2) var(--s3);
+  margin-left: var(--s2);
+  color: var(--ink-faint);
+  border: var(--line-strong);
+  border-radius: var(--radius);
+  transition: color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+}
+
+.toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}

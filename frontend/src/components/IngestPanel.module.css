@@ -1,0 +1,199 @@
+.ingest {
+  display: grid;
+  gap: var(--s6);
+  max-width: 62rem;
+}
+
+.drop {
+  padding: var(--s7);
+  border: 2px dashed var(--veil-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+
+.dragging {
+  border-color: var(--decision);
+  background: var(--decision-wash);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.blurb {
+  max-width: 46ch;
+  margin: var(--s3) auto var(--s5);
+  color: var(--ink-soft);
+}
+
+.choose {
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  padding: var(--s2) var(--s5);
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: var(--radius);
+  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+
+.choose:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--lift);
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  padding: var(--s3) var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--commitment);
+  border: 1px solid var(--commitment);
+  border-radius: var(--radius);
+}
+
+/* --- pipeline ---------------------------------------------------------- */
+
+.pipeline {
+  display: grid;
+  gap: var(--s4);
+}
+
+.pipelineHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s3);
+  padding-bottom: var(--s2);
+  border-bottom: var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.file {
+  font-weight: 500;
+}
+
+.stage {
+  padding: 0 var(--s2);
+  color: var(--paper);
+  background: var(--open);
+  border-radius: 2px;
+}
+
+.failedTag {
+  background: var(--commitment);
+}
+
+.summary {
+  margin-left: auto;
+  color: var(--ink-faint);
+}
+
+.stages {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+}
+
+/*
+ * Numbering is information here rather than decoration: these seven stages are a
+ * real sequence, and stage four cannot run before stage three.
+ */
+.step {
+  display: grid;
+  grid-template-columns: 2.5rem 8rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s3);
+  border: var(--line);
+  border-radius: var(--radius);
+  transition: border-color var(--slow) var(--ease), background var(--slow) var(--ease);
+}
+
+.pendingStep {
+  color: var(--ink-faint);
+}
+
+.doneStep {
+  border-color: var(--veil-strong);
+  background: var(--paper-raised);
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 500;
+}
+
+.stepBlurb {
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.numbers {
+  display: flex;
+  gap: var(--s3);
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.numbers b {
+  color: var(--decision);
+  font-weight: 500;
+}
+
+.waiting {
+  opacity: 0.5;
+}
+
+.notes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+/* A recoverable warning is not a failure. Missing an API key means the chunks
+   were stored without vectors and keyword search still works, so it is stated
+   in the calmer colour. */
+.warn {
+  padding: var(--s2) var(--s3);
+  color: var(--ink-soft);
+  border-left: 3px solid var(--open);
+}
+
+.fail {
+  padding: var(--s2) var(--s3);
+  color: var(--ink);
+  border-left: 3px solid var(--commitment);
+}
+
+@media (max-width: 720px) {
+  .step {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    row-gap: var(--s1);
+  }
+
+  .stepBlurb,
+  .numbers {
+    grid-column: 2;
+  }
+}

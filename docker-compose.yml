@@ -37,6 +37,18 @@ services:
       db:
         condition: service_healthy
 
+  web:
+    build:
+      context: ./frontend
+    environment:
+      # nginx proxies /api to the api service, so the browser only ever sees one
+      # origin and the bundle carries no environment-specific host.
+      API_ORIGIN: http://api:8000
+    ports:
+      - "${WEB_PORT:-5173}:80"
+    depends_on:
+      - api
+
 volumes:
   pgdata:
   uploads:

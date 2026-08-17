@@ -1,0 +1,150 @@
+/*
+ * The question is the largest thing on the page, and it has to read as something
+ * you type into rather than as a headline that happens to be grey.
+ *
+ * A bottom rule alone was not enough. It worked against paper and vanished in dark
+ * mode, where the same value sits a few percent away from the background — so the
+ * field now has its own surface and edge, from tokens tuned per theme rather than
+ * borrowed from the cards.
+ *
+ * Focus is loud on purpose: the edge takes the accent, a soft ring appears around
+ * it, and the label turns with them. Three things change at once, which is what
+ * makes the state unmistakable without a browser outline around a headline.
+ */
+.wrap {
+  display: grid;
+  gap: var(--s2);
+}
+
+.ask {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0 var(--s4);
+  padding: var(--s4) var(--s5);
+  background: var(--field-surface);
+  border: 1.5px solid var(--field-edge);
+  border-radius: var(--radius-lg);
+  cursor: text;
+  transition:
+    border-color var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+}
+
+.ask:hover {
+  border-color: var(--ink-faint);
+}
+
+.ask:focus-within {
+  border-color: var(--decision);
+  box-shadow: 0 0 0 4px var(--field-glow);
+}
+
+.eyebrow {
+  padding-left: var(--s1);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color var(--fast) var(--ease);
+  cursor: text;
+  width: fit-content;
+}
+
+.wrap:focus-within .eyebrow {
+  color: var(--decision);
+}
+
+.field {
+  width: 100%;
+  resize: none;
+  background: none;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--ink);
+}
+
+/* Legible rather than a ghost: the placeholder is doing the work of showing the
+   kind of question that works here before anything has been typed. */
+.field::placeholder {
+  color: var(--ink-faint);
+  opacity: 0.8;
+}
+
+/* The line and the label are the focus indicator, and both change together — so
+   a ring around a headline would be redundant noise. */
+.field:focus,
+.field:focus-visible {
+  outline: none;
+}
+
+.field:disabled {
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  border: var(--line-strong);
+  border-radius: 3px;
+  padding: 0 var(--s2);
+}
+
+.go {
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  padding: var(--s2) var(--s5);
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: var(--radius);
+  transition:
+    transform var(--fast) var(--ease-back),
+    box-shadow var(--fast) var(--ease-back),
+    background var(--fast) var(--ease);
+}
+
+.go:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--lift);
+}
+
+.go:active:not(:disabled) {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.go:disabled {
+  background: var(--veil);
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+@media (max-width: 620px) {
+  /* Below this width the field and the button competing for one row left the
+     placeholder truncated mid-word. Stacking gives the question the full measure. */
+  .ask {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--s3);
+  }
+
+  .controls {
+    justify-content: flex-end;
+  }
+}

@@ -1,0 +1,260 @@
+.app {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: var(--s5) var(--s5) var(--s8);
+}
+
+/* --- masthead ---------------------------------------------------------- */
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s4);
+  padding-bottom: var(--s4);
+  border-bottom: var(--line-strong);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+/* The three meanings, stacked into one mark. The whole palette in 10px. */
+.mark {
+  width: 10px;
+  height: 26px;
+  background: linear-gradient(
+    to bottom,
+    var(--decision) 0 33%,
+    var(--commitment) 33% 66%,
+    var(--open) 66% 100%
+  );
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.corpusStat {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-left: auto;
+}
+
+.tab {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  padding: var(--s2) var(--s3);
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  transition:
+    color var(--fast) var(--ease),
+    border-color var(--fast) var(--ease);
+}
+
+.tab:hover {
+  color: var(--ink);
+  border-color: var(--veil-strong);
+}
+
+.current,
+.current:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.offline {
+  margin-top: var(--s4);
+  padding: var(--s3) var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--commitment);
+  border: 1px solid var(--commitment);
+  border-radius: var(--radius);
+}
+
+/* --- hero -------------------------------------------------------------- */
+
+.hero {
+  padding: var(--s6) 0 var(--s5);
+}
+
+/* --- main -------------------------------------------------------------- */
+
+/*
+ * Each view is keyed, so switching remounts and this runs. A short rise rather
+ * than a cross-fade: the tab that was clicked is above the panel, so movement
+ * downward from it reads as cause and effect instead of decoration.
+ */
+.main {
+  padding-top: var(--s6);
+  animation: viewIn 260ms var(--ease) backwards;
+}
+
+/* Adding and removing share one column at the same measure as the drop zone, so
+   the corpus list reads as the other half of the same panel. */
+.corpusView {
+  display: grid;
+  gap: var(--s7);
+  max-width: 62rem;
+}
+
+@keyframes viewIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.invitation {
+  max-width: 54ch;
+  font-size: var(--step-1);
+  color: var(--ink-soft);
+}
+
+.invitation em {
+  color: var(--ink);
+  font-style: italic;
+}
+
+.invitationNote {
+  margin-top: var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.retrieving {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  animation: pulse 1.4s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.failure {
+  max-width: 60ch;
+  padding: var(--s4);
+  border: 1px solid var(--commitment);
+  border-radius: var(--radius-lg);
+  background: var(--commitment-wash);
+}
+
+.failure h2 {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  margin-bottom: var(--s2);
+}
+
+/* --- result ------------------------------------------------------------ */
+
+.result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 23.5rem;
+  gap: var(--s6) var(--s7);
+  align-items: start;
+}
+
+/* Full width, under both columns. The trace describes the whole answer, not just
+   the prose half of it, and it has six figures that deserve the room. */
+.traceRow {
+  grid-column: 1 / -1;
+}
+
+.answerColumn {
+  min-width: 0;
+}
+
+.refusal {
+  padding: var(--s5);
+  border: 1px dashed var(--veil-strong);
+  border-radius: var(--radius-lg);
+}
+
+.refusalText {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  margin-bottom: var(--s3);
+}
+
+.refusalNote {
+  font-size: var(--step-0);
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+/* --- footer ------------------------------------------------------------ */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  justify-content: space-between;
+  margin-top: var(--s8);
+  padding-top: var(--s4);
+  border-top: var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+@media (max-width: 900px) {
+  .result {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s6);
+  }
+}
+
+@media (max-width: 620px) {
+  .app {
+    padding: var(--s4) var(--s4) var(--s7);
+    overflow-x: clip;
+  }
+
+  .masthead {
+    gap: var(--s3);
+  }
+
+  .corpusStat {
+    order: 3;
+    width: 100%;
+  }
+
+  .nav {
+    margin-left: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: var(--s1);
+  }
+
+  .tab {
+    padding: var(--s2);
+  }
+
+  .hero {
+    padding: var(--s5) 0 var(--s5);
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: var(--s2);
+  }
+}

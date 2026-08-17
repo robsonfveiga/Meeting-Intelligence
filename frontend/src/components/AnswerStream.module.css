@@ -1,0 +1,80 @@
+.answer {
+  font-size: var(--step-1);
+  line-height: 1.62;
+  max-width: 62ch;
+  display: grid;
+  gap: var(--s4);
+}
+
+.answer strong {
+  font-weight: 600;
+  /* Emphasis is a weight change, not a colour change: the three hues mean
+     specific things and lending one to "this figure matters" would dilute them. */
+  color: var(--ink);
+}
+
+.list {
+  display: grid;
+  gap: var(--s2);
+  padding-left: var(--s5);
+}
+
+.list li::marker {
+  color: var(--decision);
+}
+
+/*
+ * A citation is a numbered square rather than a superscript link: it has to be a
+ * target worth aiming at, because hovering it lights the evidence card and the
+ * mark on the timeline at the same time.
+ */
+.chip {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5em;
+  height: 1.5em;
+  padding: 0 0.25em;
+  margin: 0 0.15em;
+  vertical-align: 0.06em;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  border-radius: 3px;
+  background: var(--decision);
+  color: var(--paper);
+  border: 1px solid var(--decision);
+  transition:
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+}
+
+.chip:hover:not(:disabled),
+.focused {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+/* Inert while tokens are still arriving: the citation behind it is not verified
+   yet, so it must not look like something you can follow. */
+.chip:disabled {
+  background: var(--veil);
+  border-color: var(--veil-strong);
+  color: var(--ink-faint);
+  cursor: default;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.45em;
+  height: 1.05em;
+  margin-left: 0.12em;
+  vertical-align: -0.15em;
+  background: var(--decision);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

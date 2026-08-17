@@ -1,0 +1,165 @@
+.record {
+  display: grid;
+  gap: var(--s5);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.select {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  padding: var(--s1) var(--s2);
+  background: var(--paper-raised);
+  color: var(--ink);
+  border: var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--s5);
+  align-items: start;
+}
+
+/*
+ * Each column is keyed by its meaning, and the key is the top border rather than
+ * a filled panel: the hue names the column without tinting the text inside it,
+ * which is what keeps the statements readable.
+ */
+.column {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  padding-top: var(--s3);
+  border-top: 3px solid var(--veil-strong);
+}
+
+.decision {
+  border-top-color: var(--decision);
+}
+
+.commitment {
+  border-top-color: var(--commitment);
+}
+
+.open_thread {
+  border-top-color: var(--open);
+}
+
+.columnHead h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  display: inline;
+}
+
+.tally {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  margin-left: var(--s2);
+}
+
+.blurb {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  margin-top: var(--s1);
+}
+
+.none {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.card {
+  padding: var(--s4);
+  background: var(--paper-raised);
+  border: var(--line-strong);
+  border-radius: var(--radius);
+  transition:
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease),
+    border-color var(--fast) var(--ease);
+}
+
+.card:hover,
+.focused {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--lift);
+  border-color: var(--ink);
+}
+
+.statement {
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+
+/* The turn range is the guarantee: a fact cannot be stored unless it pointed at
+   real transcript, so its provenance is shown rather than tucked away. */
+.provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+.meeting {
+  color: var(--ink-soft);
+}
+
+.turns {
+  margin-left: auto;
+}
+
+.owner {
+  display: flex;
+  gap: var(--s2);
+  align-items: baseline;
+  margin-top: var(--s3);
+  padding-top: var(--s2);
+  border-top: var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+
+.due {
+  color: var(--commitment);
+  margin-left: auto;
+}
+
+.empty {
+  max-width: 60ch;
+  padding: var(--s6);
+  border: 1px dashed var(--veil-strong);
+  border-radius: var(--radius-lg);
+  color: var(--ink-soft);
+}
