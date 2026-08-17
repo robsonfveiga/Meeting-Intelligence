@@ -1,5 +1,5 @@
 .PHONY: up down logs build test lint fmt typecheck check migrate shell psql clean seed \
-        eval studio web web-install web-check web-types
+        eval studio docs web web-install web-check web-types
 
 # Published host ports are read back from Compose rather than guessed from the
 # environment: API_PORT and WEB_PORT live in .env, which Compose reads and make
@@ -7,10 +7,14 @@
 api_port = $$(docker compose port api 8000 2>/dev/null | cut -d: -f2)
 web_port = $$(docker compose port web 80 2>/dev/null | cut -d: -f2)
 
+# Overridable, and deliberately not read back from Compose: the documentation
+# server is not one of its services.
+DOCS_PORT ?= 3000
+
 up:            ## Start the whole stack
 	docker compose up -d --build
 	@echo "Web on http://localhost:$(web_port)"
-	@echo "API on http://localhost:$(api_port)  (docs at /docs)"
+	@echo "API on http://localhost:$(api_port)  (OpenAPI at /docs)"
 
 down:
 	docker compose down
@@ -71,6 +75,13 @@ eval:          ## Measure retrieval against the golden set — free and determin
 # overlay on top of the project environment, so uv.lock stays the application's.
 studio:        ## Open the graphs in LangGraph Studio, against the running database
 	cd backend && uv run --with "langgraph-cli[inmem]" langgraph dev
+
+# Docsify is a single-page application built entirely from static files, so any
+# static server will do and the standard library already ships one. Nothing to
+# install, and no Node needed for documentation.
+docs:          ## Serve the documentation site
+	@echo "Docs on http://localhost:$(DOCS_PORT)"
+	@cd docs && python3 -m http.server $(DOCS_PORT)
 
 migrate:       ## Apply migrations against the running database
 	docker compose run --rm api alembic upgrade head
