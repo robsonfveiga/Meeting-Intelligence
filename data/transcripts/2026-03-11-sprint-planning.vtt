@@ -1,0 +1,57 @@
+WEBVTT
+
+a91b2c33-77de-4f10-8b55-99ee00112233/1-0
+00:00:03.000 --> 00:00:12.000
+<v Tom Beckett>Morning. Sprint planning. Before the board, one carry-over from last week.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/2-0
+00:00:12.000 --> 00:00:21.500
+<v Tom Beckett>Priya, the churn analysis you were writing up. Did that go out?</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/3-0
+00:00:21.500 --> 00:00:33.000
+<v Priya Raman>Not yet. I got pulled into the incident on Tuesday and it slipped. It's still on my list.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/4-0
+00:00:33.000 --> 00:00:42.000
+<v Tom Beckett>Fine, but people are making plans on the assumption it exists. Can we say end of this week?</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/5-0
+00:00:42.000 --> 00:00:48.000
+<v Priya Raman>End of this week, yes. I'll block Thursday morning for it.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/6-0
+00:00:48.000 --> 00:00:59.000
+<v Sofia Marquez>While we're on it, the pricing decision from last week — is that final, or are we reopening?</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/7-0
+00:00:59.000 --> 00:01:11.000
+<v Tom Beckett>It's final for launch. We delay the increase. Whether we revisit in Q3 is a separate conversation.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/8-0
+00:01:11.000 --> 00:01:22.000
+<v Sofia Marquez>Good, because I've told two customers we're holding prices. I'd rather not walk that back.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/9-0
+00:01:22.000 --> 00:01:33.000
+<v Tom Beckett>You're safe. Right, the board. We've got fourteen points of migration cleanup queued.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/10-0
+00:01:33.000 --> 00:01:45.000
+<v Sofia Marquez>That's most of the sprint. The rollback tooling is the big one and I don't want to split it.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/11-0
+00:01:45.000 --> 00:01:57.000
+<v Priya Raman>Can we take the rollback work and leave the smaller bugs? Otherwise nothing lands.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/12-0
+00:01:57.000 --> 00:02:09.000
+<v Sofia Marquez>That works. I'll take rollback tooling. Someone else needs to own the bug triage.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/13-0
+00:02:09.000 --> 00:02:18.000
+<v Tom Beckett>I'll own triage. Decision: rollback tooling this sprint, small bugs deferred to next.</v>
+
+a91b2c33-77de-4f10-8b55-99ee00112233/14-0
+00:02:18.000 --> 00:02:27.000
+<v Priya Raman>Noted. And I still owe everyone the churn numbers by Thursday.</v>

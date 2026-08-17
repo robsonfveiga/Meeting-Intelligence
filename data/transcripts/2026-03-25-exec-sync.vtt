@@ -1,0 +1,49 @@
+WEBVTT
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/1-0
+00:00:05.000 --> 00:00:17.000
+<v Tom Beckett>Quick exec sync. Launch is in two weeks and I want to close out anything still open.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/2-0
+00:00:17.000 --> 00:00:31.000
+<v Priya Raman>Churn analysis went out last Thursday, as promised. Short version is the annual tier is four points worse than we modelled.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/3-0
+00:00:31.000 --> 00:00:44.000
+<v Tom Beckett>Which brings us back to pricing. We delayed the increase for launch. Does the churn data change that for Q3?</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/4-0
+00:00:44.000 --> 00:01:00.000
+<v Priya Raman>It argues for delaying further, honestly. If the annual tier is already churning above forecast, a rise makes that worse before it makes revenue better.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/5-0
+00:01:00.000 --> 00:01:14.000
+<v Sofia Marquez>I'd add that the migration damaged trust with exactly the accounts on annual plans. Those are the ones we'd be raising on.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/6-0
+00:01:14.000 --> 00:01:29.000
+<v Tom Beckett>So we're now talking about not raising prices at all this year. That's a bigger decision than delaying to Q3.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/7-0
+00:01:29.000 --> 00:01:43.000
+<v Priya Raman>It is, and I don't think we should take it in a fifteen minute sync. I'd want the revenue modelling in front of us.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/8-0
+00:01:43.000 --> 00:01:58.000
+<v Tom Beckett>Agreed. Decision for today: pricing stays flat through launch, and we schedule a proper session on the annual tier before end of Q2.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/9-0
+00:01:58.000 --> 00:02:10.000
+<v Sofia Marquez>I'll pull the account-level churn split so that session has something concrete to work from.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/10-0
+00:02:10.000 --> 00:02:23.000
+<v Dan Okafor>On migration, the rehearsal environment scoping is done. It's about eleven thousand a year to keep a production-sized restore available.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/11-0
+00:02:23.000 --> 00:02:36.000
+<v Tom Beckett>That's cheaper than I expected. Put it in the budget conversation rather than deciding it here.</v>
+
+f0e1d2c3-b4a5-4968-8778-6a5b4c3d2e1f/12-0
+00:02:36.000 --> 00:02:48.000
+<v Dan Okafor>Will do. Rollback tooling landed this sprint too, so the four hour problem should not repeat.</v>
