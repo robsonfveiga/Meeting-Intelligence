@@ -12,3 +12,9 @@ dist/
 
 # The assignment brief. Not ours to redistribute.
 Assignment v3.docx
+
+# Word writes a lock file beside any open document.
+~$*
+
+# Browser-automation scratch output.
+.playwright-mcp/
