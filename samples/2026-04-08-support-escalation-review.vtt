@@ -1,0 +1,117 @@
+WEBVTT
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/1-0
+00:00:01.000 --> 00:00:08.500
+<v Dan Okafor>Thanks for making the time. This is the support escalation review for the first week after launch.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/2-0
+00:00:08.500 --> 00:00:17.000
+<v Dan Okafor>I want us to leave with a call on the tier one queue, because we cannot keep borrowing engineers every afternoon.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/3-0
+00:00:17.000 --> 00:00:26.000
+<v Sofia Marquez>Numbers first, then. We took two hundred and forty tickets in the seven days after launch, against a normal week of about ninety.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/4-0
+00:00:26.000 --> 00:00:35.500
+<v Sofia Marquez>Just over half of those are the same three migration issues we logged in the retro. Sign-in loops, missing invoice history, and the export timeout.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/5-0
+00:00:35.500 --> 00:00:42.000
+<v Tom Beckett>So the volume is real but it is not two hundred and forty different problems. That is better than I expected.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/6-0
+00:00:42.000 --> 00:00:51.000
+<v Sofia Marquez>It is three problems with a long tail. The export timeout is the expensive one because every case needs an engineer to reproduce it.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/7-0
+00:00:51.000 --> 00:01:00.500
+<v Priya Raman>How long is the queue sitting at? The reason I ask is that we told the annual customers they would see a response inside one business day.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/8-0
+00:01:00.500 --> 00:01:08.000
+<v Sofia Marquez>First response is running at about nineteen hours. Resolution on the export cases is closer to four days.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/9-0
+00:01:08.000 --> 00:01:16.500
+<v Priya Raman>Then we are inside the promise on first response and well outside it on anything that matters. I would rather we fixed the cause than staffed the queue.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/10-0
+00:01:16.500 --> 00:01:26.000
+<v Tom Beckett>Both, surely. Dan, if we pull two engineers onto the export timeout full time, what falls off the sprint?</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/11-0
+00:01:26.000 --> 00:01:35.500
+<v Dan Okafor>The reporting redesign slips a sprint. Nothing else moves, because the search work is already behind the same two people.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/12-0
+00:01:35.500 --> 00:01:44.000
+<v Dan Okafor>I am fine with that trade. Nobody has asked for the redesign this month and everybody has asked about exports.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/13-0
+00:01:44.000 --> 00:01:52.500
+<v Priya Raman>Agreed. Let's take the decision properly: we delay the reporting redesign by one sprint and put two engineers on the export timeout until it is closed.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/14-0
+00:01:52.500 --> 00:01:59.000
+<v Tom Beckett>No objection. I will tell the two customers who were waiting on the redesign, so it does not reach them sideways.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/15-0
+00:01:59.000 --> 00:02:08.000
+<v Sofia Marquez>On the sign-in loops, the fix shipped Tuesday and new reports have stopped. I still have eleven open cases from before the fix to close out.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/16-0
+00:02:08.000 --> 00:02:15.500
+<v Sofia Marquez>I will work through those by Friday and confirm each one individually rather than mass-closing them.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/17-0
+00:02:15.500 --> 00:02:24.000
+<v Dan Okafor>Good. The invoice history one is a data backfill, not a code change. It runs overnight and it is queued for Thursday.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/18-0
+00:02:24.000 --> 00:02:32.500
+<v Priya Raman>Is that risky? I do not want a backfill on invoices going wrong the same week we are asking people to trust the billing screen.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/19-0
+00:02:32.500 --> 00:02:41.000
+<v Dan Okafor>It is read-only reconstruction into a new table, and we can compare totals before we switch the screen over. If the totals disagree we stop.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/20-0
+00:02:41.000 --> 00:02:47.500
+<v Priya Raman>That is enough of a safety net for me. Run it Thursday.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/21-0
+00:02:47.500 --> 00:02:56.000
+<v Tom Beckett>One more thing before we close. Does any of this change the pricing conversation? We said in March we would revisit the increase after launch.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/22-0
+00:02:56.000 --> 00:03:05.500
+<v Priya Raman>It changes the timing, not the direction. I am not taking a price rise to customers while the export bug is open.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/23-0
+00:03:05.500 --> 00:03:13.000
+<v Priya Raman>So the pricing decision stays open until the export timeout is closed, and we look at it again in the May planning session.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/24-0
+00:03:13.000 --> 00:03:20.500
+<v Tom Beckett>Noted. That is the third time we have deferred it, so I would like it on the May agenda as a decision item, not a discussion item.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/25-0
+00:03:20.500 --> 00:03:27.000
+<v Priya Raman>Fair. Put it at the top of the May planning agenda and I will bring the updated churn figures to it.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/26-0
+00:03:27.000 --> 00:03:35.500
+<v Dan Okafor>Then to summarise. Reporting redesign slips one sprint, two engineers on the export timeout, invoice backfill Thursday with a totals check.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/27-0
+00:03:35.500 --> 00:03:43.000
+<v Dan Okafor>Sofia closes the eleven sign-in cases by Friday, Tom talks to the two redesign customers, and pricing goes to May planning.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/28-0
+00:03:43.000 --> 00:03:48.000
+<v Sofia Marquez>That matches my notes. I will send the ticket breakdown after this.</v>
+
+9d4e1b77-6a02-4c18-8f3b-72c5d9e1a4f0/29-0
+00:03:48.000 --> 00:03:52.000
+<v Priya Raman>Thank you all. Same time next week if the numbers are still moving.</v>
