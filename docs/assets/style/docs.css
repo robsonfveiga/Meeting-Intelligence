@@ -1,0 +1,538 @@
+/*
+ * The documentation palette, taken from the application's own design tokens
+ * (`frontend/src/styles/tokens.css`) so the docs and the product read as one
+ * thing rather than two.
+ *
+ * The three hues carry the same meanings here as they do in the interface:
+ * violet is something settled, magenta is something a person owes, teal is
+ * something still open. They are never used for body text — magenta on paper
+ * measures about 3.2:1, which is fine for a border and not fine for a sentence.
+ *
+ * This layers over docsify's vue.css rather than replacing it. Everything below
+ * is a deliberate override; anything not mentioned is docsify's default on
+ * purpose.
+ */
+
+:root {
+  --ink: #17141f;
+  --ink-soft: #55506a;
+  --ink-faint: #8b849f;
+  --paper: #f5f3f7;
+  --paper-raised: #fffdff;
+  --veil: #e4dfec;
+  --veil-strong: #cec7dc;
+
+  --decision: #3b2bff;
+  --commitment: #ff2e88;
+  --open: #00c2a8;
+  /* Tinted panel fills, kept very pale so ink stays readable on top. */
+  --decision-wash: #ebe9ff;
+  --commitment-wash: #ffe9f3;
+  --open-wash: #e0f8f5;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* docsify's own hook — recolours links, the active sidebar item and the
+     search field in one go. */
+  --theme-color: var(--decision);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+/* --- type ---------------------------------------------------------------- */
+
+.markdown-section h1,
+.markdown-section h2,
+.markdown-section h3,
+.markdown-section h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/*
+ * vue.css hardcodes a light palette in four places that a dark ground turns into
+ * near-black on near-black: heading text, bold text, the sidebar title, and code
+ * blocks. Each is restated here against a token so both themes work.
+ *
+ * The `a span` selectors are the subtle one. Docsify renders every heading as
+ * `<h2><a class="anchor"><span>…</span></a></h2>` and colours the innermost
+ * span, so setting a colour on the heading alone changes nothing visible — the
+ * computed style on the h2 reads correctly while the text on screen does not.
+ */
+.markdown-section h1 a span,
+.markdown-section h2 a span,
+.markdown-section h3 a span,
+.markdown-section h4 a span,
+.markdown-section strong,
+.sidebar > h1,
+.sidebar > h1 a {
+  color: var(--ink);
+}
+
+.markdown-section h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* A rule under h2 only. Enough to separate major sections without drawing a
+   line under every heading on the page. */
+.markdown-section h2 {
+  border-bottom: 1px solid var(--veil);
+  padding-bottom: 0.3em;
+  margin-top: 2.4rem;
+}
+
+.markdown-section p,
+.markdown-section li {
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.markdown-section blockquote {
+  border-left: 3px solid var(--decision);
+  background: var(--decision-wash);
+  color: var(--ink);
+  border-radius: 0 3px 3px 0;
+}
+
+/*
+ * Callouts. Docsify has its own syntax — `?>` for a note and `!>` for something
+ * that matters — and does *not* understand GitHub's `> [!NOTE]`, which it renders
+ * as the literal text. vue.css then colours them its own green and yellow, so
+ * both are restated against the palette: teal for an aside, magenta for a caveat,
+ * the same meanings those two hues carry everywhere else.
+ */
+/* `p.tip`, not `.tip`: docsify renders these as paragraphs and vue.css targets
+   them by tag, which outranks a bare class selector however late it loads. */
+.markdown-section p.tip,
+.markdown-section p.warn {
+  border-radius: 0 3px 3px 0;
+  padding: 0.9rem 1.1rem;
+  color: var(--ink);
+}
+
+/*
+ * The class names are inverted from what they read as, so these two rules look
+ * wrong and are not. Docsify emits `class="tip"` for `!>` — its *important*
+ * marker — and `class="warn"` for `?>`, its aside. Colouring by the class name
+ * would give the caveat the calm hue and the aside the loud one.
+ *
+ * So: `!>` (.tip) takes magenta, the hue this palette uses for something owed and
+ * outstanding. `?>` (.warn) takes teal, the aside.
+ */
+.markdown-section p.tip {
+  border-left: 3px solid var(--commitment);
+  background-color: var(--commitment-wash);
+}
+
+.markdown-section p.warn {
+  border-left: 3px solid var(--open);
+  background-color: var(--open-wash);
+}
+
+/* vue.css floats an "!" badge over the left border of a tip; it reads as a stray
+   glyph once the padding changes. */
+.markdown-section p.tip:before {
+  display: none;
+}
+
+/* --- code ---------------------------------------------------------------- */
+
+.markdown-section code,
+.markdown-section pre {
+  font-family: var(--font-mono);
+}
+
+.markdown-section pre {
+  background: var(--paper-raised);
+  border: 1px solid var(--veil);
+  border-radius: 4px;
+}
+
+.markdown-section pre > code {
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.86em;
+  line-height: 1.6;
+}
+
+.markdown-section code {
+  background: var(--veil);
+  color: var(--ink);
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+/* --- tables -------------------------------------------------------------- */
+
+/*
+ * A real table box rather than docsify's `display: block`, so columns share the
+ * full width instead of collapsing to their content. The cost is that a block's
+ * overflow scrolling goes with it, so the media query below puts it back where
+ * it is actually needed — a two-column table has room on a laptop and none on a
+ * phone.
+ *
+ * Only ever bottom borders, which is why `border-collapse` matters: without it
+ * every cell draws its own and the rules double up at each boundary.
+ */
+.markdown-section table {
+  border-collapse: collapse;
+  display: table;
+  width: 100%;
+}
+
+/* `border: 0` first, then the one edge that stays. vue.css puts a full box on
+   every cell, and setting only `border-bottom` leaves the other three drawing
+   the grid this design does not want. */
+.markdown-section th,
+.markdown-section td {
+  border: 0;
+  padding: 0.6em 0.9em;
+}
+
+.markdown-section th {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-align: left;
+  border-bottom: 2px solid var(--veil-strong);
+}
+
+.markdown-section td {
+  border-bottom: 1px solid var(--veil);
+}
+
+/* A colour chip for the rows that name one of the three meanings, so the table
+   explaining the palette is itself in the palette. */
+.swatch {
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  border-radius: 2px;
+  margin-right: 0.55em;
+  vertical-align: baseline;
+}
+
+.swatch-decision { background: var(--decision); }
+.swatch-commitment { background: var(--commitment); }
+.swatch-open { background: var(--open); }
+
+/* Docsify stripes even rows; the borders already separate them. */
+.markdown-section tr:nth-child(2n) {
+  background: transparent;
+}
+
+/* A long unbroken token — a URL, a path — would otherwise force the whole table
+   wider than the page even when the columns themselves would fit. */
+.markdown-section td,
+.markdown-section th {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .markdown-section table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* --- diagrams ------------------------------------------------------------ */
+
+/* Mermaid renders at its natural width and lets it overflow; this keeps a wide
+   graph inside the column and centred rather than running under the sidebar. */
+.markdown-section .mermaid {
+  overflow-x: auto;
+  text-align: center;
+  margin: 1.6rem 0;
+}
+
+.markdown-section .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- sidebar ------------------------------------------------------------- */
+
+.sidebar {
+  background: var(--paper);
+  border-right: 1px solid var(--veil);
+}
+
+.sidebar > h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.sidebar ul li a {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.sidebar ul li a:hover {
+  color: var(--decision);
+}
+
+/* The three-band mark, as a marker on the active page. */
+.sidebar ul li.active > a {
+  color: var(--decision);
+  font-weight: 500;
+  border-right: 2px solid var(--decision);
+}
+
+/* The search plugin and the mobile toggle both hardcode white, which stays white
+   on a dark sidebar. */
+.search {
+  border-bottom: 1px solid var(--veil);
+  margin-bottom: 0;
+}
+
+.search input {
+  background: var(--paper-raised);
+  color: var(--ink);
+  border: 1px solid var(--veil);
+  border-radius: 4px;
+  font-family: var(--font-body);
+}
+
+.search input::placeholder {
+  color: var(--ink-faint);
+}
+
+.search .matching-post {
+  border-bottom: 1px solid var(--veil);
+}
+
+.search p {
+  color: var(--ink-soft);
+}
+
+.search .matching-post h2,
+.search .clear-button {
+  color: var(--ink);
+}
+
+.sidebar-toggle {
+  background: transparent;
+}
+
+.sidebar-toggle .sidebar-toggle-button span {
+  background-color: var(--ink-soft);
+}
+
+/* --- cover --------------------------------------------------------------- */
+
+/*
+ * The cover is dark in both themes, deliberately: it is a title page rather than
+ * a page of prose, the three hues are at their most legible against near-black,
+ * and a landing surface that changes identity with a system setting is a weaker
+ * first impression than one that commits.
+ *
+ * Its own tokens, because the body's flip under `prefers-color-scheme` further
+ * down must not reach in here and change them.
+ */
+section.cover {
+  --cover-ink: #f4f1f9;
+  --cover-ink-soft: #a9a1bd;
+  --cover-veil: #332c45;
+  --cover-decision: #8a7dff;
+  --cover-commitment: #ff6aa8;
+  --cover-open: #2ad9c0;
+}
+
+/*
+ * Depth over the flat colour: three washes, one per hue, faint enough to read as
+ * light rather than as colour.
+ *
+ * On a pseudo-element rather than the section's own `background-image`, because
+ * `![color](…)` lands as an inline `background` *shorthand* — which resets
+ * background-image to none and outranks any stylesheet. A layer of its own needs
+ * no `!important` to survive that.
+ */
+section.cover.show::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 22% 28%, rgba(138, 125, 255, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 78% 22%, rgba(255, 106, 168, 0.11) 0%, transparent 42%),
+    radial-gradient(circle at 60% 82%, rgba(42, 217, 192, 0.11) 0%, transparent 46%);
+}
+
+/* Above the washes. */
+section.cover .cover-main {
+  position: relative;
+  z-index: 1;
+}
+
+section.cover .cover-main {
+  color: var(--cover-ink);
+}
+
+section.cover h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/*
+ * The wordmark is plain: the colour on this page belongs to the mark above it and
+ * the badges below, and a third coloured thing would be one too many.
+ *
+ * The `span` is not redundant. Docsify wraps every heading as
+ * `<h1><a class="anchor"><span>…</span></a></h1>` and vue.css colours the span,
+ * so a rule that stops at the anchor sets a colour nothing inherits — the text
+ * stays slate while the computed style on the link insists it is white.
+ */
+section.cover h1 a,
+section.cover h1 a:hover,
+section.cover h1 a span {
+  color: var(--cover-ink);
+  -webkit-text-fill-color: var(--cover-ink);
+  text-decoration: none;
+  background: none;
+}
+
+section.cover blockquote p {
+  color: var(--cover-ink-soft);
+  font-size: 1.08rem;
+  font-weight: 400;
+}
+
+/* Aspect ratio follows the mark's own 12×24, so height is what gets set. */
+.coverpage-mark {
+  height: 60px;
+  width: auto;
+}
+
+/* Badges, hue-coded to the three meanings so even the cover teaches the palette
+   before the reader reaches a page that uses it. */
+.badge {
+  display: inline-block;
+  padding: 4px 11px;
+  margin: 3px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  border: 1px solid var(--cover-veil);
+  color: var(--cover-ink-soft);
+}
+
+.badge-decision { border-color: var(--cover-decision); color: var(--cover-decision); }
+.badge-commitment { border-color: var(--cover-commitment); color: var(--cover-commitment); }
+.badge-open { border-color: var(--cover-open); color: var(--cover-open); }
+
+/*
+ * Buttons. vue.css fills the *last* link and outlines the rest, which puts the
+ * emphasis on "GitHub" rather than on "Get started" — so both are restated here
+ * by position. The `background` reset on the second is the load-bearing line:
+ * without it vue.css's fill stays and the label sits violet-on-violet.
+ */
+section.cover .cover-main > p:last-child a {
+  border-radius: 5px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  padding: 0.7em 1.8rem;
+}
+
+section.cover .cover-main > p:last-child a:first-child {
+  background: var(--cover-decision);
+  border-color: var(--cover-decision);
+  /* Dark label on light violet: about 9:1, where white would be near 3:1. */
+  color: #0f0d15;
+}
+
+section.cover .cover-main > p:last-child a:last-child {
+  background: transparent;
+  border-color: var(--cover-veil);
+  color: var(--cover-ink-soft);
+}
+
+section.cover .cover-main > p:last-child a:hover {
+  opacity: 0.85;
+}
+
+section.cover .cover-main > p:last-child a:last-child:hover {
+  border-color: var(--cover-decision);
+  color: var(--cover-decision);
+  opacity: 1;
+}
+
+/* --- dark ---------------------------------------------------------------- */
+
+/* The application has a theme toggle; these pages follow the reader's system
+   setting instead, because a docs site with its own toggle to remember is one
+   more thing to maintain for no gain. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f2eff7;
+    --ink-soft: #b3abc4;
+    --ink-faint: #7d7592;
+    --paper: #131019;
+    --paper-raised: #1c1826;
+    --veil: #2b2537;
+    --veil-strong: #3d3550;
+
+    /* Lifted for contrast on a dark ground; the hues stay recognisable. */
+    --decision: #8a7dff;
+    --commitment: #ff6aa8;
+    --open: #2ad9c0;
+    /* Deep tints rather than pale ones, so the hue still reads at this size. */
+    --decision-wash: #1e1936;
+    --commitment-wash: #2b1725;
+    --open-wash: #0e2b28;
+  }
+
+  .sidebar ul li a { color: var(--ink-soft); }
+  .markdown-section code { color: var(--ink); }
+
+  /*
+   * Syntax colours. vue.css ships Prism's light theme, whose tokens are dark by
+   * design and therefore invisible here.
+   *
+   * This is the one place the three hues carry small text, against the palette's
+   * own rule. It holds because these are the lifted dark-ground variants: on the
+   * code block's #1c1826 they measure roughly 6:1 and better, where the light
+   * theme's #3b2bff on paper would not.
+   */
+  .markdown-section .token.comment,
+  .markdown-section .token.prolog,
+  .markdown-section .token.doctype,
+  .markdown-section .token.cdata {
+    color: var(--ink-faint);
+  }
+
+  .markdown-section .token.string,
+  .markdown-section .token.attr-value,
+  .markdown-section .token.number,
+  .markdown-section .token.boolean {
+    color: var(--open);
+  }
+
+  .markdown-section .token.keyword,
+  .markdown-section .token.tag,
+  .markdown-section .token.selector,
+  .markdown-section .token.atrule {
+    color: var(--decision);
+  }
+
+  .markdown-section .token.function,
+  .markdown-section .token.class-name,
+  .markdown-section .token.property,
+  .markdown-section .token.attr-name {
+    color: var(--commitment);
+  }
+
+  .markdown-section .token.operator,
+  .markdown-section .token.punctuation {
+    color: var(--ink-soft);
+  }
+}

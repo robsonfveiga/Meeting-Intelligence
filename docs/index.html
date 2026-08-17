@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meeting Intelligence</title>
+    <meta
+      name="description"
+      content="Ask questions across a collection of meeting transcripts, and get back an answer that carries the evidence under it."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+    <link rel="icon" href="assets/images/mark.svg" />
+
+    <!-- Space Grotesk for display, IBM Plex Mono for anything machine-verified.
+       The same two faces the application uses, loaded from the CDN here because
+       these pages have no bundler to resolve the npm packages. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Docsify's own theme as the base, then the palette on top. Owning a whole
+       theme means maintaining one; overriding a handful of properties does not. -->
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
+    />
+    <link rel="stylesheet" href="assets/style/docs.css" />
+  </head>
+  <body>
+    <div id="app">Loading…</div>
+
+    <script>
+      window.$docsify = {
+        name: "Meeting Intelligence",
+        repo: "https://github.com/robsonfveiga/Meeting-Intelligence",
+        coverpage: true,
+        loadSidebar: true,
+        homepage: "pages/main.md",
+        // With loadSidebar on, docsify looks for a _sidebar.md beside every nested
+        // page before falling back to the root one. It works either way, but the
+        // probe 404s in the console on every page under pages/.
+        alias: {
+          "/.*/_sidebar.md": "/_sidebar.md",
+        },
+        auto2top: true,
+        // Kept at 1, which collects headings down to `h1` only — and every page's
+        // single h1 is already its sidebar link, so in practice this injects
+        // nothing. That is the point: _sidebar.md lists the sections by hand so
+        // the whole site stays on screen rather than only the page you are on.
+        // Raising this appends docsify's automatic list under the manual entries
+        // and the active page shows its sections twice.
+        subMaxLevel: 1,
+        search: {
+          depth: 5,
+          placeholder: "Search",
+          noData: "Nothing matches that.",
+        },
+      };
+    </script>
+
+    <!-- Mermaid earns its place: the ingestion and query graphs are the two things
+       here that a diagram explains better than a paragraph.
+       Order matters, and is the reason this is the UMD build rather than the ES
+       module. A `type="module"` script is always deferred, so it would set
+       `window.mermaid` only after docsify-mermaid had already looked for it and
+       given up — the diagrams then render as their own source text. A classic
+       script runs in place, before the plugin that needs it. -->
+    <script src="//cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script>
+      // Mermaid's stock palette is lavender-on-white and fixed, so a diagram stays
+      // pale against a dark page and matches nothing else here either. The `base`
+      // theme is the one that takes overrides, so the diagrams are driven from the
+      // same three hues as the rest of the site.
+      //
+      // Read once, at load: mermaid bakes these into each diagram as it renders,
+      // so switching system themes needs a reload to recolour the graphs. Worth it
+      // to avoid re-rendering every diagram on a media-query change.
+      const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      const palette = dark
+        ? {
+            node: "#1e1936",
+            border: "#8a7dff",
+            text: "#f2eff7",
+            line: "#7d7592",
+            label: "#131019",
+          }
+        : {
+            node: "#ebe9ff",
+            border: "#3b2bff",
+            text: "#17141f",
+            line: "#8b849f",
+            label: "#f5f3f7",
+          };
+
+      mermaid.initialize({
+        // The plugin renders each diagram as docsify reaches it, so mermaid must
+        // not also sweep the page on load.
+        startOnLoad: false,
+        theme: "base",
+        themeVariables: {
+          background: "transparent",
+          // Node fill and outline. `mainBkg` is what a flowchart box actually
+          // takes; `primaryColor` covers the shapes that do not read it.
+          primaryColor: palette.node,
+          mainBkg: palette.node,
+          primaryBorderColor: palette.border,
+          nodeBorder: palette.border,
+          primaryTextColor: palette.text,
+          // Edges, and the little label plates that sit on top of them.
+          lineColor: palette.line,
+          edgeLabelBackground: palette.label,
+          // IBM Plex Mono deliberately: a graph's labels are node names, and the
+          // machine's own typeface is what this design uses for machine things.
+          fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+          fontSize: "14px",
+        },
+      });
+    </script>
+    <!-- Plugins register themselves on `window.$docsify`, so they load before docsify. -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+
+    <!-- After docsify, which carries its own Prism core. Python first: it is what
+       most code on these pages is written in. -->
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24">
+  <!--
+    The cover's mark. Same three meanings as the favicon — decided, owed, open —
+    but transparent, in the dark-ground variants of the three hues, and with the
+    viewBox cropped to the bands themselves. The favicon's 32×32 square leaves
+    ten units of padding either side, so reusing it renders a third of the size
+    it is asked for.
+  -->
+  <rect width="12" height="8" fill="#8A7DFF" />
+  <rect y="8" width="12" height="8" fill="#FF6AA8" />
+  <rect y="16" width="12" height="8" fill="#2AD9C0" />
+</svg>
