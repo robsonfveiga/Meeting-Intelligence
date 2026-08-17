@@ -53,6 +53,7 @@ from app.db import turns as turns_db
 from app.db.engine import transaction
 from app.models.fact.fact import Fact
 from app.models.ingestion.ingestion_state import IngestionState
+from app.models.ingestion.source_reference import SourceReference
 from app.models.ingestion.stage import Stage
 from app.models.ingestion.stage_error import StageError
 from app.models.ingestion.stage_stats import StageStats
@@ -92,6 +93,19 @@ def _meeting_id(state: IngestionState) -> UUID:
     return meeting_id
 
 
+def _source(state: IngestionState) -> SourceReference:
+    """Take the source however it arrived.
+
+    The state is a TypedDict, which annotates but does not coerce: the upload
+    route puts a real `SourceReference` in, while anything driving the graph from
+    JSON — LangGraph Studio, a replayed checkpoint, the platform API — puts the
+    dict it deserialised. Both are legitimate entry points, so the node accepts
+    either rather than the caller having to know which one it is.
+    """
+    source = state["source"]
+    return source if isinstance(source, SourceReference) else SourceReference.model_validate(source)
+
+
 # --------------------------------------------------------------------------
 # Nodes
 # --------------------------------------------------------------------------
@@ -104,7 +118,7 @@ async def validate_node(state: IngestionState) -> dict[str, Any]:
     Separate from parsing so the job reports *why* it failed: a wrong format and
     an empty transcript are different problems for whoever uploaded it.
     """
-    source = state["source"]
+    source = _source(state)
     if not looks_like_webvtt(_read(source.storage_path, _SAMPLE_BYTES)):
         log.warning("ingest.rejected", job_id=state["job_id"], filename=source.filename)
         return {
@@ -125,7 +139,7 @@ async def parse_node(state: IngestionState) -> dict[str, Any]:
     makes the write atomic — there is no state where a meeting exists with no
     content.
     """
-    source = state["source"]
+    source = _source(state)
     transcript = parse_webvtt(_read(source.storage_path))
 
     if not transcript.turns:
@@ -454,3 +468,17 @@ def build_ingestion_graph(checkpointer) -> Any:
 
 def new_job_id() -> str:
     return str(uuid4())
+
+
+def studio_graph() -> Any:
+    """Entry point for LangGraph Studio, which needs to build the graph itself.
+
+    Compiled **without** a checkpointer, unlike the application's. Studio runs its
+    own persistence layer and attaches it to whatever it loads; handing it ours
+    would give the run two competing stores and defeat the thread inspection that
+    is the reason to open Studio at all.
+
+    Everything else is the real graph — the same nodes writing to the same
+    database, so a run started here leaves real meetings behind.
+    """
+    return build_ingestion_graph(None)

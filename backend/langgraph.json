@@ -1,0 +1,9 @@
+{
+  "python_version": "3.13",
+  "dependencies": ["."],
+  "graphs": {
+    "ingest": "./app/graphs/ingest.py:studio_graph",
+    "query": "./app/graphs/query.py:build_query_graph"
+  },
+  "env": "../.env"
+}

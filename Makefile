@@ -1,5 +1,5 @@
 .PHONY: up down logs build test lint fmt typecheck check migrate shell psql clean seed \
-        eval web web-install web-check web-types
+        eval studio web web-install web-check web-types
 
 # Published host ports are read back from Compose rather than guessed from the
 # environment: API_PORT and WEB_PORT live in .env, which Compose reads and make
@@ -64,6 +64,13 @@ seed:          ## Ingest the sample corpus
 
 eval:          ## Measure retrieval against the golden set — free and deterministic
 	docker compose exec -T api python -m evals.run
+
+# `--with` rather than a dev dependency: langgraph-cli is a tool, not something
+# the application imports, and adding it to the project pins structlog down a
+# minor version to satisfy langgraph-api. This installs it into a throwaway
+# overlay on top of the project environment, so uv.lock stays the application's.
+studio:        ## Open the graphs in LangGraph Studio, against the running database
+	cd backend && uv run --with "langgraph-cli[inmem]" langgraph dev
 
 migrate:       ## Apply migrations against the running database
 	docker compose run --rm api alembic upgrade head

@@ -16,5 +16,8 @@ Assignment v3.docx
 # Word writes a lock file beside any open document.
 ~$*
 
+# LangGraph Studio's local checkpoint store.
+.langgraph_api/
+
 # Browser-automation scratch output.
 .playwright-mcp/
